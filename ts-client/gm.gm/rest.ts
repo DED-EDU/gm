@@ -14,6 +14,10 @@
  */
 export type GmParams = object;
 
+export interface GmQueryGmResponse {
+  text?: string;
+}
+
 /**
  * QueryParamsResponse is response type for the Query/Params RPC method.
  */
@@ -158,6 +162,22 @@ export class HttpClient<SecurityDataType = unknown> {
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryGm
+   * @summary Queries a list of Gm items.
+   * @request GET:/gm/gm/gm
+   */
+  queryGm = (params: RequestParams = {}) =>
+    this.request<GmQueryGmResponse, RpcStatus>({
+      path: `/gm/gm/gm`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
   /**
    * No description
    *

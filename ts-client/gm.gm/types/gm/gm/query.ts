@@ -14,6 +14,13 @@ export interface QueryParamsResponse {
   params: Params | undefined;
 }
 
+export interface QueryGmRequest {
+}
+
+export interface QueryGmResponse {
+  text: string;
+}
+
 function createBaseQueryParamsRequest(): QueryParamsRequest {
   return {};
 }
@@ -102,10 +109,98 @@ export const QueryParamsResponse = {
   },
 };
 
+function createBaseQueryGmRequest(): QueryGmRequest {
+  return {};
+}
+
+export const QueryGmRequest = {
+  encode(_: QueryGmRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGmRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryGmRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): QueryGmRequest {
+    return {};
+  },
+
+  toJSON(_: QueryGmRequest): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryGmRequest>, I>>(_: I): QueryGmRequest {
+    const message = createBaseQueryGmRequest();
+    return message;
+  },
+};
+
+function createBaseQueryGmResponse(): QueryGmResponse {
+  return { text: "" };
+}
+
+export const QueryGmResponse = {
+  encode(message: QueryGmResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.text !== "") {
+      writer.uint32(10).string(message.text);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGmResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryGmResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.text = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGmResponse {
+    return { text: isSet(object.text) ? String(object.text) : "" };
+  },
+
+  toJSON(message: QueryGmResponse): unknown {
+    const obj: any = {};
+    message.text !== undefined && (obj.text = message.text);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryGmResponse>, I>>(object: I): QueryGmResponse {
+    const message = createBaseQueryGmResponse();
+    message.text = object.text ?? "";
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
+  /** Queries a list of Gm items. */
+  Gm(request: QueryGmRequest): Promise<QueryGmResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -113,11 +208,18 @@ export class QueryClientImpl implements Query {
   constructor(rpc: Rpc) {
     this.rpc = rpc;
     this.Params = this.Params.bind(this);
+    this.Gm = this.Gm.bind(this);
   }
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
     const promise = this.rpc.request("gm.gm.Query", "Params", data);
     return promise.then((data) => QueryParamsResponse.decode(new _m0.Reader(data)));
+  }
+
+  Gm(request: QueryGmRequest): Promise<QueryGmResponse> {
+    const data = QueryGmRequest.encode(request).finish();
+    const promise = this.rpc.request("gm.gm.Query", "Gm", data);
+    return promise.then((data) => QueryGmResponse.decode(new _m0.Reader(data)));
   }
 }
 

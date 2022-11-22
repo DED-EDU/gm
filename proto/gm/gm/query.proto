@@ -15,7 +15,12 @@ service Query {
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/gm/gm/params";
   }
-  // this line is used by starport scaffolding # 2
+  // Queries a list of Gm items.
+	rpc Gm(QueryGmRequest) returns (QueryGmResponse) {
+		option (google.api.http).get = "/gm/gm/gm";
+	}
+
+// this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -25,6 +30,13 @@ message QueryParamsRequest {}
 message QueryParamsResponse {
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGmRequest {
+}
+
+message QueryGmResponse {
+  string text = 1;
 }
 
 // this line is used by starport scaffolding # 3
