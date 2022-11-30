@@ -87,6 +87,7 @@ require (
 	github.com/elastic/gosigar v0.14.2 // indirect
 	github.com/emicklei/proto v1.11.0 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
+	github.com/evmos/ethermint v0.19.3 // indirect
 	github.com/fatih/color v1.13.0 // indirect
 	github.com/felixge/httpsnoop v1.0.1 // indirect
 	github.com/flynn/noise v1.0.0 // indirect
